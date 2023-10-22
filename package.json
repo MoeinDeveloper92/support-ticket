@@ -1,0 +1,11 @@
+{
+  "name": "support-ticket",
+  "version": "1.0.0",
+  "description": "Support ticket system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "author": "Moein Samani",
+  "license": "MIT"
+}
