@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaUser } from "react-icons/fa"
 import { toast } from "react-toastify"
-
+import { useSelector, useDispatch } from "react-redux"
+import { reset, register } from '../features/auth/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
 
@@ -12,7 +14,24 @@ const Register = () => {
         password2: ""
     })
     const { name, email, password, password2 } = formData
+    const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth)
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message)
+        }
+
+        if (isSuccess || user) {
+            //if it is susccessul we want to re-direct
+            navigate("/")
+        }
+
+        //here we dispatch the reset to get aout of the useEffect
+        dispatch(reset())
+    }, [isError, isSuccess, user, message, navigate, dispatch])
 
     const handleChange = (e) => {
         setFormData((preState) => ({
@@ -26,8 +45,15 @@ const Register = () => {
         e.preventDefault()
         if (password !== password2) {
             toast.error("Passwords do not match.")
+        } else {
+            //we bundle the data
+            const userData = {
+                name,
+                email,
+                password
+            }
+            dispatch(register(userData))
         }
-        console.log(formData)
     }
 
 
