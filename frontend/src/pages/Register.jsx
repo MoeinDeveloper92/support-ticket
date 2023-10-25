@@ -4,6 +4,7 @@ import { toast } from "react-toastify"
 import { useSelector, useDispatch } from "react-redux"
 import { reset, register } from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
+import Spinner from '../components/Spinner'
 
 const Register = () => {
 
@@ -56,6 +57,9 @@ const Register = () => {
         }
     }
 
+    if (isLoading) {
+        return <Spinner />
+    }
 
     return (
         <>
